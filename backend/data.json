@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1712334571234,
+    "customer": "John Doe",
+    "destination": "Biratnagar",
+    "status": "delievered"
+  },
+  {
+    "id": 1743884493965,
+    "customer": "Illiyaz",
+    "destination": "davangere",
+    "status": "out for delivery"
+  },
+  {
+    "id": 1743884629764,
+    "customer": "Adnan",
+    "destination": "karachi",
+    "status": "dispatched"
+  }
+]

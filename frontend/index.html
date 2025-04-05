@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Baral Logistics</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Parcel Manager</h1>
+  <form id="parcelForm">
+    <input type="text" id="customer" placeholder="Customer Name" required />
+    <input type="text" id="destination" placeholder="Destination" required />
+    <input type="text" id="status" placeholder="Status (e.g., Dispatched)" required />
+    <button type="submit">Add Parcel</button>
+  </form>
+  <table id="parcelTable">
+    <thead>
+      <tr>
+        <th>ID</th><th>Customer</th><th>Destination</th><th>Status</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <script src="script.js"></script>
+</body>
+</html>
