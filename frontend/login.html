@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Baral Logistics</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="navbar"></div>
+  <h1>Login</h1>
+  <form id="loginForm">
+    <input type="text" id="username" placeholder="Username" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button type="submit">Login</button>
+  </form>
+  <p id="loginMessage"></p>
+  <script>
+    fetch('nav.html').then(res => res.text()).then(data => {
+      document.getElementById('navbar').innerHTML = data;
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      if (username === "admin" && password === "admin") {
+        localStorage.setItem("isLoggedIn", "true");
+        window.location.href = "index.html";
+      } else {
+        document.getElementById("loginMessage").textContent = "Invalid credentials.";
+      }
+    });
+  </script>
+</body>
+</html>

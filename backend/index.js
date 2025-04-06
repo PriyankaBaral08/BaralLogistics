@@ -1,3 +1,6 @@
+console.log("🟢 Backend server started");
+
+
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -6,6 +9,7 @@ const routes = require('./routes');
 
 const app = express();
 const PORT = 3000;
+app.use(express.static('frontend'));
 
 app.use(cors());
 app.use(bodyParser.json());

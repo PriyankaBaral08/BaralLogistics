@@ -1,47 +1,63 @@
-
 const express = require('express');
-const fs = require('fs');
 const router = express.Router();
+const db = require('./database');
 
-const dataPath = './backend/data.json';
-
-const readData = () => {
-  const raw = fs.readFileSync(dataPath);
-  return JSON.parse(raw);
-};
-
-const writeData = (data) => {
-  fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
-};
-
+// GET all parcels
 router.get('/parcels', (req, res) => {
-  const parcels = readData();
-  res.json(parcels);
+  db.all('SELECT * FROM parcels', [], (err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(rows);
+  });
 });
 
+// POST create a new parcel
 router.post('/parcels', (req, res) => {
-  const parcels = readData();
-  const newParcel = { id: Date.now(), ...req.body };
-  parcels.push(newParcel);
-  writeData(parcels);
-  res.status(201).json(newParcel);
+  console.log("📥 POST /parcels called");
+  console.log("📦 Request body:", req.body);
+
+  const { customer, destination, status } = req.body;
+
+  if (!customer || !destination || !status) {
+    console.error("❌ Missing required fields");
+    return res.status(400).json({ error: "All fields are required." });
+  }
+
+  const query = 'INSERT INTO parcels (customer, destination, status) VALUES (?, ?, ?)';
+  const values = [customer, destination, status];
+
+  console.log("📤 Running query:", query);
+  console.log("📤 With values:", values);
+
+  db.run(query, values, function (err) {
+    if (err) {
+      console.error("❌ Database error:", err.message);
+      return res.status(500).json({ error: err.message });
+    }
+
+    console.log("✅ Parcel inserted, ID:", this.lastID);
+    res.status(201).json({ id: this.lastID, customer, destination, status });
+  });
 });
 
+// PUT update a parcel's status
 router.put('/parcels/:id', (req, res) => {
-  let parcels = readData();
-  const parcelId = parseInt(req.params.id);
-  parcels = parcels.map(parcel =>
-    parcel.id === parcelId ? { ...parcel, ...req.body } : parcel
+  const { status } = req.body;
+  db.run(
+    'UPDATE parcels SET status = ? WHERE id = ?',
+    [status, req.params.id],
+    function (err) {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json({ message: 'Parcel updated' });
+    }
   );
-  writeData(parcels);
-  res.json({ message: 'Parcel updated' });
 });
 
+// DELETE a parcel
 router.delete('/parcels/:id', (req, res) => {
-  let parcels = readData();
-  parcels = parcels.filter(parcel => parcel.id !== parseInt(req.params.id));
-  writeData(parcels);
-  res.json({ message: 'Parcel deleted' });
+  db.run('DELETE FROM parcels WHERE id = ?', [req.params.id], function (err) {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: 'Parcel deleted' });
+  });
 });
 
 module.exports = router;

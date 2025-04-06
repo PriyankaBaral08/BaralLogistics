@@ -27,21 +27,37 @@ const loadParcels = async () => {
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
+
+  // ✅ Access inputs directly by ID
   const parcel = {
-    customer: form.customer.value,
-    destination: form.destination.value,
-    status: form.status.value
+    customer: document.getElementById('customer').value,
+    destination: document.getElementById('destination').value,
+    status: document.getElementById('status').value
   };
 
-  await fetch(API, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(parcel)
-  });
+  try {
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(parcel)
+    });
 
-  form.reset();
-  loadParcels();
+    const result = await res.json();
+
+    if (!res.ok) {
+      console.error("❌ API Error:", result);
+      alert(`Error: ${result.error}`);
+    } else {
+      console.log("✅ Parcel added:", result);
+      form.reset();
+      loadParcels();
+    }
+  } catch (err) {
+    console.error("❌ Fetch Error:", err);
+    alert("Failed to add parcel.");
+  }
 });
+
 
 const deleteParcel = async (id) => {
   await fetch(`${API}/${id}`, { method: 'DELETE' });

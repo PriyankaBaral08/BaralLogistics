@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Track Parcel - Baral Logistics</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="navbar"></div>
+  <h1>Track a Parcel</h1>
+  <input type="text" id="search" placeholder="Enter Customer Name or Parcel ID" />
+  <button onclick="trackParcel()">Track</button>
+  <div id="results"></div>
+  <script>
+    fetch('nav.html').then(res => res.text()).then(data => {
+      document.getElementById('navbar').innerHTML = data;
+    });
+
+    const API = 'http://localhost:3000/api/parcels';
+    async function trackParcel() {
+      const query = document.getElementById('search').value.toLowerCase();
+      const res = await fetch(API);
+      const parcels = await res.json();
+      const results = parcels.filter(p =>
+        p.customer.toLowerCase().includes(query) || String(p.id).includes(query)
+      );
+      const output = results.map(p =>
+        `<p><strong>ID:</strong> ${p.id}, <strong>Customer:</strong> ${p.customer}, 
+        <strong>Destination:</strong> ${p.destination}, <strong>Status:</strong> ${p.status}</p>`
+      ).join('');
+      document.getElementById('results').innerHTML = output || "<p>No results found.</p>";
+    }
+  </script>
+</body>
+</html>
