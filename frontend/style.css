@@ -1,16 +1,109 @@
-
 body {
-  font-family: sans-serif;
-  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+  margin: 0;
+  padding: 0;
 }
+
+nav {
+  background-color: #0057b7;
+  padding: 10px 20px;
+}
+
+nav a {
+  color: white;
+  margin-right: 20px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  color: #0057b7;
+  padding: 20px 0;
+  text-align: center;
+}
+
 form {
-  margin-bottom: 20px;
+  max-width: 500px;
+  margin: 20px auto;
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
-input {
-  margin-right: 10px;
+
+input, button {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
-table, th, td {
-  border: 1px solid black;
+
+button {
+  background-color: #0057b7;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #003d80;
+}
+
+#bookingMsg, #loginMessage {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+table {
+  width: 90%;
+  margin: 20px auto;
   border-collapse: collapse;
-  padding: 8px;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+  background-color: #0057b7;
+  color: white;
+}
+
+td button {
+  margin-right: 5px;
+  background-color: #ff6f61;
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+td button:hover {
+  background-color: #e65c50;
+}
+
+#results p {
+  background-color: white;
+  margin: 10px auto;
+  padding: 15px;
+  max-width: 600px;
+  border-left: 5px solid #0057b7;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
