@@ -1,0 +1,3 @@
+🟢 Backend server started
+Baral Logistics web application running on http://localhost:3000
+✅ Connected to SQLite database.

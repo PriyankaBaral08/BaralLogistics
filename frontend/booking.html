@@ -1,17 +1,15 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Book Parcel - Baral Logistics</title>
-  <link rel="stylesheet" href="style-professional.css" />
+  <link rel="stylesheet" href="style-modern-clean.css" />
 </head>
 <body>
   <div id="navbar"></div>
 
   <h1>Book a Parcel</h1>
-  
 
-  <!-- ✅ Form with correct IDs -->
   <form id="bookingForm">
     <input type="text" id="customer" placeholder="Customer Name" required />
     <input type="text" id="destination" placeholder="Destination" required />
@@ -22,29 +20,26 @@
   <p id="bookingMsg" style="font-weight: bold;"></p>
 
   <script>
-    // ✅ Load nav bar
     fetch('nav.html')
-      .then((res) => res.text())
-      .then((data) => {
+      .then(res => res.text())
+      .then(data => {
         document.getElementById('navbar').innerHTML = data;
       })
-      .catch((err) => {
+      .catch(err => {
         console.error("❌ Failed to load nav.html:", err);
       });
 
-    const API = 'http://localhost:3000/api/parcels';
-
-    // ✅ Add submit event handler
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.getElementById('bookingForm');
+      const API = 'http://localhost:3000/api/parcels';
 
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
 
         const parcel = {
-          customer: document.getElementById('customer').value,
-          destination: document.getElementById('destination').value,
-          status: document.getElementById('status').value,
+          customer: document.getElementById('customer').value.trim(),
+          destination: document.getElementById('destination').value.trim(),
+          status: document.getElementById('status').value.trim()
         };
 
         console.log("📦 Sending booking:", parcel);
@@ -53,7 +48,7 @@
           const res = await fetch(API, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(parcel),
+            body: JSON.stringify(parcel)
           });
 
           const result = await res.json();
@@ -63,7 +58,7 @@
             document.getElementById('bookingMsg').textContent = "✅ Parcel booked!";
             form.reset();
           } else {
-            document.getElementById('bookingMsg').textContent = "❌ " + result.error;
+            document.getElementById('bookingMsg').textContent = "❌ " + (result.error || 'Unexpected error');
           }
         } catch (err) {
           console.error("❌ Booking error:", err);
@@ -71,32 +66,6 @@
         }
       });
     });
-  </script>
-</body>
-</html> -->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Book Parcel - Baral Logistics</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <div id="navbar"></div>
-
-  <h1>Booking Page</h1>
-
-  <script>
-    fetch('nav.html')
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById('navbar').innerHTML = data;
-        console.log("✅ nav.html loaded");
-      })
-      .catch(err => {
-        console.error("❌ Failed to load nav.html:", err);
-      });
   </script>
 </body>
 </html>
