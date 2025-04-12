@@ -13,7 +13,9 @@ db.run(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     customer TEXT NOT NULL,
     destination TEXT NOT NULL,
-    status TEXT NOT NULL
+    status TEXT NOT NULL,
+    weight REAL NOT NULL,
+    bookingDate TEXT NOT NULL
   )
 `);
 

@@ -1,48 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+  <script>if (localStorage.getItem("isLoggedIn") !== "true") {
+    window.location.href = "login.html";
+  }
+</script>
 <head>
   <meta charset="UTF-8" />
-  <title>Book Parcel - Baral Logistics</title>
-  <link rel="stylesheet" href="style-modern-clean.css" />
+  <title>Book a Parcel - Baral Logistics</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div id="navbar"></div>
 
-  <h1>Book a Parcel</h1>
+  <main class="container">
+    <h1>📦 Book a Parcel</h1>
 
-  <form id="bookingForm">
-    <input type="text" id="customer" placeholder="Customer Name" required />
-    <input type="text" id="destination" placeholder="Destination" required />
-    <input type="text" id="status" placeholder="Status" required />
-    <button type="submit">Submit Booking</button>
-  </form>
+    <form id="bookingForm">
+      <input type="text" id="customer" placeholder="Customer Name" required />
+      <input type="text" id="destination" placeholder="Destination" required />
+      <input type="text" id="status" placeholder="Status (e.g., Dispatched)" required />
+      <input type="number" id="weight" placeholder="Weight (kg)" step="0.1" required />
+      <input type="date" id="bookingDate" required />
+      <button type="submit">Submit Booking</button>
+    </form>
 
-  <p id="bookingMsg" style="font-weight: bold;"></p>
+    <p id="bookingMsg" class="msg"></p>
+  </main>
 
   <script>
     fetch('nav.html')
       .then(res => res.text())
       .then(data => {
         document.getElementById('navbar').innerHTML = data;
-      })
-      .catch(err => {
-        console.error("❌ Failed to load nav.html:", err);
       });
+
+    const API = 'http://localhost:3000/api/parcels';
 
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.getElementById('bookingForm');
-      const API = 'http://localhost:3000/api/parcels';
+      document.getElementById('bookingDate').valueAsDate = new Date();
 
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
 
         const parcel = {
-          customer: document.getElementById('customer').value.trim(),
-          destination: document.getElementById('destination').value.trim(),
-          status: document.getElementById('status').value.trim()
+          customer: document.getElementById('customer').value,
+          destination: document.getElementById('destination').value,
+          status: document.getElementById('status').value,
+          weight: parseFloat(document.getElementById('weight').value),
+          bookingDate: document.getElementById('bookingDate').value
         };
-
-        console.log("📦 Sending booking:", parcel);
 
         try {
           const res = await fetch(API, {
@@ -52,17 +59,20 @@
           });
 
           const result = await res.json();
-          console.log("📨 Server response:", result);
+          const msg = document.getElementById('bookingMsg');
 
           if (res.ok) {
-            document.getElementById('bookingMsg').textContent = "✅ Parcel booked!";
+            msg.textContent = "✅ Parcel booked!";
+            msg.className = "msg success";
             form.reset();
+            document.getElementById('bookingDate').valueAsDate = new Date();
           } else {
-            document.getElementById('bookingMsg').textContent = "❌ " + (result.error || 'Unexpected error');
+            msg.textContent = "❌ " + result.error;
+            msg.className = "msg error";
           }
         } catch (err) {
-          console.error("❌ Booking error:", err);
           document.getElementById('bookingMsg').textContent = "❌ Failed to book parcel.";
+          document.getElementById('bookingMsg').className = "msg error";
         }
       });
     });

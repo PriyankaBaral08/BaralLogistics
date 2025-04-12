@@ -15,15 +15,15 @@ router.post('/parcels', (req, res) => {
   console.log("📥 POST /parcels called");
   console.log("📦 Request body:", req.body);
 
-  const { customer, destination, status } = req.body;
+  const { customer, destination, status, weight , bookingDate } = req.body;
 
-  if (!customer || !destination || !status) {
+  if (!customer || !destination || !status || !weight || !bookingDate) {
     console.error("❌ Missing required fields");
     return res.status(400).json({ error: "All fields are required." });
   }
 
-  const query = 'INSERT INTO parcels (customer, destination, status) VALUES (?, ?, ?)';
-  const values = [customer, destination, status];
+  const query = 'INSERT INTO parcels (customer, destination, status, weight , bookingDate) VALUES (?, ?, ?)';
+  const values = [customer, destination, status, weight , bookingDate];
 
   console.log("📤 Running query:", query);
   console.log("📤 With values:", values);
@@ -35,7 +35,7 @@ router.post('/parcels', (req, res) => {
     }
 
     console.log("✅ Parcel inserted, ID:", this.lastID);
-    res.status(201).json({ id: this.lastID, customer, destination, status });
+    res.status(201).json({ id: this.lastID, customer, destination, status, weight, bookingDate });
   });
 });
 

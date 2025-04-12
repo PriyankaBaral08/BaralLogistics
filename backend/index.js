@@ -18,6 +18,7 @@ app.use('/api', routes);
 
 // ✅ Serve index.html on root
 app.get('/', (req, res) => {
+  res.redirect('/login.html');
   res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 

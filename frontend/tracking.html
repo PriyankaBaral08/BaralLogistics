@@ -1,35 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+  <script> if (localStorage.getItem("isLoggedIn") !== "true") {
+    window.location.href = "login.html";
+  }
+</script>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Track Parcel - Baral Logistics</title>
-  <link rel="stylesheet" href="style-modern-clean.css" />
-
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div id="navbar"></div>
-  <h1>Track a Parcel</h1>
-  <input type="text" id="search" placeholder="Enter Customer Name or Parcel ID" />
-  <button onclick="trackParcel()">Track</button>
-  <div id="results"></div>
+
+  <main class="container">
+    <h1>📦 Track a Parcel</h1>
+    <input type="text" id="search" placeholder="Enter Customer Name or Parcel ID" />
+    <button onclick="trackParcel()">Track</button>
+    <div id="results" class="results"></div>
+  </main>
+
   <script>
-    fetch('nav.html').then(res => res.text()).then(data => {
-      document.getElementById('navbar').innerHTML = data;
-    });
+    fetch('nav.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('navbar').innerHTML = data;
+      });
 
     const API = 'http://localhost:3000/api/parcels';
+
     async function trackParcel() {
       const query = document.getElementById('search').value.toLowerCase();
       const res = await fetch(API);
       const parcels = await res.json();
+
       const results = parcels.filter(p =>
         p.customer.toLowerCase().includes(query) || String(p.id).includes(query)
       );
-      const output = results.map(p =>
-        `<p><strong>ID:</strong> ${p.id}, <strong>Customer:</strong> ${p.customer}, 
-        <strong>Destination:</strong> ${p.destination}, <strong>Status:</strong> ${p.status}</p>`
-      ).join('');
-      document.getElementById('results').innerHTML = output || "<p>No results found.</p>";
+
+      const output = results.map(p => `
+        <div class="result-card">
+          <p><strong>ID:</strong> ${p.id}</p>
+          <p><strong>Customer:</strong> ${p.customer}</p>
+          <p><strong>Destination:</strong> ${p.destination}</p>
+          <p><strong>Status:</strong> ${p.status}</p>
+          <p><strong>Weight:</strong> ${p.weight} kg</p>
+          <p><strong>Date:</strong> ${p.bookingDate}</p>
+        </div>
+      `).join('');
+
+      document.getElementById('results').innerHTML = output || "<p class='msg error'>❌ No parcels found.</p>";
     }
   </script>
 </body>

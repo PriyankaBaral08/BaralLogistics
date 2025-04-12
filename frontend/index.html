@@ -1,6 +1,10 @@
 <!-- frontend/index.html -->
 <!DOCTYPE html>
 <html lang="en">
+  <script>if (localStorage.getItem("isLoggedIn") !== "true") {
+    window.location.href = "login.html";
+  }
+</script>
 <head>
   <meta charset="UTF-8">
   <title>Dashboard - Baral Logistics</title>
@@ -9,7 +13,8 @@
 <body>
   <div id="navbar"></div>
   <h1>Baral Logistics Pvt Ltd</h1>
-  <p>Welcome to the logistics dashboard! Use the nav to explore.</p>
+  <p>Welcome to the Baral logistics.</p>
+    <p></p>One Stop solution for all Logistics Operation. </p>
 
   <script>
     fetch('nav.html')
