@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard - Baral Logistics</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <main class="container">
+    <h1>📋 Parcel Admin Dashboard</h1>
+
+    <table id="parcelTable">
+      <thead>
+        <tr>
+          <th>ID</th><th>Customer</th><th>Destination</th><th>Status</th><th>Weight (kg)</th><th>Date</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <h2>Add New Parcel</h2>
+    <form id="addParcelForm">
+      <input type="text" id="customer" placeholder="Customer" required />
+      <input type="text" id="destination" placeholder="Destination" required />
+      <input type="text" id="status" placeholder="Status" required />
+      <input type="number" id="weight" placeholder="Weight (kg)" step="0.1" required />
+      <input type="date" id="bookingDate" required />
+      <button type="submit">Add Parcel</button>
+    </form>
+
+    <p id="adminMsg" class="msg"></p>
+  </main>
+
+  <script>
+    fetch('nav.html')
+      .then(res => res.text())
+      .then(data => document.getElementById('navbar').innerHTML = data);
+
+    const API = 'http://localhost:3000/api/parcels';
+    const tableBody = document.querySelector('#parcelTable tbody');
+    const adminMsg = document.getElementById('adminMsg');
+
+    const loadParcels = async () => {
+      const res = await fetch(API);
+      const parcels = await res.json();
+
+      tableBody.innerHTML = '';
+      parcels.forEach(p => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${p.id}</td>
+          <td contenteditable="true" onblur="updateField(${p.id}, 'customer', this.innerText)">${p.customer}</td>
+          <td contenteditable="true" onblur="updateField(${p.id}, 'destination', this.innerText)">${p.destination}</td>
+          <td contenteditable="true" onblur="updateStatus(${p.id}, this.innerText)">${p.status}</td>
+          <td contenteditable="true" onblur="updateField(${p.id}, 'weight', this.innerText)">${p.weight}</td>
+          <td contenteditable="true" onblur="updateField(${p.id}, 'bookingDate', this.innerText)">${p.bookingDate}</td>
+          <td>
+            <button onclick="updateRow(${p.id})">Update</button>
+            <button onclick="deleteParcel(${p.id})">Delete</button>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    };
+
+    const updateField = async (id, field, value) => {
+      const res = await fetch(`${API}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ [field]: value })
+      });
+      const result = await res.json();
+      console.log("✏️ Updated:", result);
+    };
+
+    const updateStatus = (id, status) => updateField(id, 'status', status);
+
+    const deleteParcel = async (id) => {
+      if (confirm('Are you sure you want to delete this parcel?')) {
+        await fetch(`${API}/${id}`, { method: 'DELETE' });
+        loadParcels();
+      }
+    };
+
+    document.getElementById('addParcelForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const newParcel = {
+        customer: document.getElementById('customer').value,
+        destination: document.getElementById('destination').value,
+        status: document.getElementById('status').value,
+        weight: parseFloat(document.getElementById('weight').value),
+        bookingDate: document.getElementById('bookingDate').value
+      };
+
+      const res = await fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newParcel)
+      });
+
+      const result = await res.json();
+      if (res.ok) {
+        adminMsg.textContent = "✅ Parcel added!";
+        e.target.reset();
+        loadParcels();
+      } else {
+        adminMsg.textContent = "❌ " + result.error;
+      }
+    });
+
+    loadParcels();
+  </script>
+</body>
+</html>
