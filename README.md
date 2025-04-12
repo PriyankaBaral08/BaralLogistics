@@ -106,7 +106,7 @@ Ensure you have Node.js installed (recommended version 16 or 18). Then, run:
     ✓ should update a parcel
     ✓ should delete a parcel
 
-  References
+  **References**
 [1] Project_Assessment B9IS123.docx.pdf, Dublin Business School, January 2025.
 [2] Express.js Documentation, Available: https://expressjs.com/
 [3] SQLite Documentation, Available: https://www.sqlite.org/docs.html
@@ -115,7 +115,7 @@ Ensure you have Node.js installed (recommended version 16 or 18). Then, run:
 [6] Mozilla Developer Network, "Using Fetch", MDN Web Docs, Available: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 [7] W3C Web Content Accessibility Guidelines (WCAG) 2.1, Available: https://www.w3.org/TR/WCAG21/
 
-Conclusion
+**Conclusion**
 This README documentation explains the design, installation, testing, and deployment of the Baral Logistics web application. By leveraging a modular architecture and modern web development practices, the system meets the requirements for a robust, maintainable information system. The comprehensive testing strategy ensures the reliability of the CRUD operations, while deployment instructions provide a clear pathway to making the application available online.
 
 
