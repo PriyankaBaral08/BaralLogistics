@@ -16,6 +16,7 @@
       <button type="submit">Login</button>
     </form>
     <p id="loginMessage" class="msg"></p>
+    <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
   </main>
 
   <script>
@@ -29,11 +30,12 @@
       e.preventDefault();
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
+      const users = JSON.parse(localStorage.getItem("users") || "{}");
 
       const message = document.getElementById('loginMessage');
-      if (username === 'admin' && password === 'admin') {
+      if (users[username] && users[username] === password) {
         localStorage.setItem("isLoggedIn", "true");
-        window.location.href = "index.html";
+        
         message.textContent = "✅ Login successful!";
         message.className = "msg success";
         setTimeout(() => window.location.href = 'index.html', 1000);
@@ -41,6 +43,7 @@
         message.textContent = "❌ Invalid credentials.";
         message.className = "msg error";
       }
+
     });
   </script>
 </body>

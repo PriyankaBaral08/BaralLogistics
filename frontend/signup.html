@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign Up - Baral Logistics</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <main class="container">
+    <h1>📝 Create an Account</h1>
+    <form id="signupForm">
+      <input type="text" id="newUsername" placeholder="Choose a Username" required />
+      <input type="password" id="newPassword" placeholder="Choose a Password" required />
+      <button type="submit">Register</button>
+    </form>
+    <p id="signupMessage" class="msg"></p>
+  </main>
+
+  <script>
+    fetch('nav.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('navbar').innerHTML = data;
+      });
+
+    document.getElementById('signupForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const username = document.getElementById('newUsername').value.trim();
+      const password = document.getElementById('newPassword').value.trim();
+      const message = document.getElementById('signupMessage');
+
+      if (localStorage.getItem("users")) {
+        const users = JSON.parse(localStorage.getItem("users"));
+        if (users[username]) {
+          message.textContent = "❌ Username already exists.";
+          message.className = "msg error";
+          return;
+        }
+        users[username] = password;
+        localStorage.setItem("users", JSON.stringify(users));
+      } else {
+        const users = {};
+        users[username] = password;
+        localStorage.setItem("users", JSON.stringify(users));
+      }
+
+      message.textContent = "✅ Registration successful! Redirecting to login...";
+      message.className = "msg success";
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
