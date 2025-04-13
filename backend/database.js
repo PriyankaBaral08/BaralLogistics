@@ -1,22 +1,34 @@
-
-const sqlite3 = require('sqlite3').verbose();
-
-// Open or create the database
-const db = new sqlite3.Database('./backend/parcels.db', (err) => {
-  if (err) return console.error(err.message);
-  console.log('✅ Connected to SQLite database.');
-});
-
-// Create the parcels table if it doesn't exist
-db.run(`
-  CREATE TABLE IF NOT EXISTS parcels (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    customer TEXT NOT NULL,
-    destination TEXT NOT NULL,
-    status TEXT NOT NULL,
-    weight REAL NOT NULL,
-    bookingDate TEXT NOT NULL
-  )
-`);
-
-module.exports = db;
+{
+  "name": "baral-logistics",
+  "version": "1.0.0",
+  "main": "backend/index.js",
+  "scripts": {
+    "start": "node backend/index.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.1.0"
+  },
+  "description": "",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PriyankaBaral08/BaralLogistics.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PriyankaBaral08/BaralLogistics/issues"
+  },
+  "homepage": "https://github.com/PriyankaBaral08/BaralLogistics#readme"
+}
