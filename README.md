@@ -106,6 +106,79 @@ Ensure you have Node.js installed (recommended version 16 or 18). Then, run:
     ✓ should update a parcel
     ✓ should delete a parcel
 
+**Deployment Using Render**
+    
+---
+
+## ⚙️ Render Deployment Steps
+
+### 1. ✅ Prerequisites
+- GitHub account and repository containing your project
+- Render account ([render.com](https://render.com))
+- Working `package.json` at the project root
+
+### 2. 🧾 `package.json` Example (must be in root folder)
+
+```json
+{
+  "name": "baral-logistics",
+  "version": "1.0.0",
+  "main": "backend/index.js",
+  "scripts": {
+    "start": "node backend/index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "body-parser": "^1.20.2",
+    "sqlite3": "^5.1.6"
+  }
+}
+3. Configure Express to Serve Frontend
+    Inside backend/index.js, serve static files like this:
+        const express = require('express');
+        const path = require('path');
+        const app = express();
+
+        app.use(express.static(path.join(__dirname, '../frontend')));
+
+        app.get('/', (req, res) => {
+        res.sendFile(path.join(__dirname, '../frontend/index.html'));
+});
+
+4. 🚀 Deploy to Render
+      1. Go to render.com and log in.
+
+      2. Click "New + → Web Service"
+
+      3. Connect your GitHub repository
+
+      4. Fill out:
+
+          Name: baral-logistics
+
+          Build Command: npm install
+
+          Start Command: npm start
+
+          Root Directory: / (leave blank if your files are in the root)
+
+5. Click "Create Web Service"
+
+5. 🌍 Access the Live App
+      Render will provide you with a live URL like:
+      https://baral-logistics.onrender.com
+
+  Test all pages:
+
+  /booking.html
+
+  /tracking.html
+
+  /login.html
+
+  /index.html (Dashboard)
+
   **References**
 [1] Project_Assessment B9IS123.docx.pdf, Dublin Business School, January 2025.
 [2] Express.js Documentation, Available: https://expressjs.com/
@@ -114,6 +187,12 @@ Ensure you have Node.js installed (recommended version 16 or 18). Then, run:
 [5] Supertest GitHub Repository, Available: https://github.com/visionmedia/supertest
 [6] Mozilla Developer Network, "Using Fetch", MDN Web Docs, Available: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 [7] W3C Web Content Accessibility Guidelines (WCAG) 2.1, Available: https://www.w3.org/TR/WCAG21/
+
+Render – Deploy Node.js
+
+Express.js Documentation
+
+SQLite Documentation
 
 **Conclusion**
 This README documentation explains the design, installation, testing, and deployment of the Baral Logistics web application. By leveraging a modular architecture and modern web development practices, the system meets the requirements for a robust, maintainable information system. The comprehensive testing strategy ensures the reliability of the CRUD operations, while deployment instructions provide a clear pathway to making the application available online.
