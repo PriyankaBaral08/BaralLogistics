@@ -72,8 +72,8 @@ Ensure you have Node.js installed (recommended version 16 or 18). Then, run:
       nodemon backend/index.js
 
       You should see log messages similar to:
-      🟢 Backend server started
-      ✅ Connected to SQLite database.
+      Backend server started
+      Connected to SQLite database.
       Baral Logistics web application running on http://localhost:3000
 
   2.Access the Application
@@ -110,14 +110,14 @@ Ensure you have Node.js installed (recommended version 16 or 18). Then, run:
     
 ---
 
-## ⚙️ Render Deployment Steps
+## Render Deployment Steps
 
-### 1. ✅ Prerequisites
+### 1. Prerequisites
 - GitHub account and repository containing your project
 - Render account ([render.com](https://render.com))
 - Working `package.json` at the project root
 
-### 2. 🧾 `package.json` Example (must be in root folder)
+### 2. `package.json` Example (must be in root folder)
 
 ```json
 {
@@ -146,7 +146,7 @@ Ensure you have Node.js installed (recommended version 16 or 18). Then, run:
         res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
-4. 🚀 Deploy to Render
+4. Deploy to Render
       1. Go to render.com and log in.
 
       2. Click "New + → Web Service"
@@ -165,7 +165,7 @@ Ensure you have Node.js installed (recommended version 16 or 18). Then, run:
 
 5. Click "Create Web Service"
 
-5. 🌍 Access the Live App
+5. Access the Live App
       Render will provide you with a live URL like:
       https://baral-logistics.onrender.com
 
